@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: cuci-mobil-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: cuci_mobil
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mongodb:
+    image: mongo:7
+    container_name: cuci-mobil-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  auth-service:
+    build: ./backend/auth-service
+    container_name: cuci-mobil-auth
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root123
+      DB_NAME: cuci_mobil
+      JWT_SECRET: cuci-mobil-secret-key-2024
+    depends_on:
+      - mysql
+
+  api-service:
+    build: ./backend/api-service
+    container_name: cuci-mobil-api
+    ports:
+      - "5001:5001"
+    environment:
+      PORT: 5001
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root123
+      DB_NAME: cuci_mobil
+      MONGODB_URI: mongodb://mongodb:27017/cuci_mobil
+      JWT_SECRET: cuci-mobil-secret-key-2024
+      GCS_BUCKET_NAME: cuci-mobil-photos
+      GCS_PROJECT_ID: your-gcp-project-id
+    depends_on:
+      - mysql
+      - mongodb
+
+volumes:
+  mysql_data:
+  mongo_data:
