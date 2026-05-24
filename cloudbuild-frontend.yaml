@@ -11,11 +11,11 @@ steps:
     entrypoint: npm
     args: ['run', 'build']
 
-  # 3. Deploy ke App Engine
+  # 3. Deploy ke App Engine sebagai file statis
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     dir: 'frontend/web-admin'
     entrypoint: gcloud
-    args: ['app', 'deploy', 'app.yaml', '--project', '$PROJECT_ID', '--quiet']
+    args: ['app', 'deploy', 'app.yaml', '--project', '$PROJECT_ID', '--quiet', '--no-cache']
 
 options:
   logging: CLOUD_LOGGING_ONLY
