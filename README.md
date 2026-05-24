@@ -44,7 +44,6 @@ Pastikan sudah terinstall di PC:
 
 ```bash
 git clone <URL_REPOSITORY>
-cd cuci-mobil-panggilan
 ```
 
 ### 2. Nyalakan Docker Desktop
