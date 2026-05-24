@@ -1,0 +1,21 @@
+steps:
+  # 1. Install Dependencies
+  - name: 'node:20'
+    dir: 'frontend/web-admin'
+    entrypoint: npm
+    args: ['install']
+
+  # 2. Build Vite App (Menghasilkan folder /dist)
+  - name: 'node:20'
+    dir: 'frontend/web-admin'
+    entrypoint: npm
+    args: ['run', 'build']
+
+  # 3. Deploy ke App Engine
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    dir: 'frontend/web-admin'
+    entrypoint: gcloud
+    args: ['app', 'deploy', 'app.yaml', '--project', '$PROJECT_ID', '--quiet']
+
+options:
+  logging: CLOUD_LOGGING_ONLY

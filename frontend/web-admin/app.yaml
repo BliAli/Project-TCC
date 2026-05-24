@@ -1,0 +1,16 @@
+runtime: nodejs20
+
+handlers:
+# Melayani aset statis bawaan Vite
+- url: /assets
+  static_dir: dist/assets
+
+# Melayani file statis lainnya dengan ekstensi tertentu
+- url: /(.*\..+)$
+  static_files: dist/\1
+  upload: dist/(.*\..+)$
+
+# Mengarahkan semua rute lainnya ke index.html (untuk React Router SPA)
+- url: /.*
+  static_files: dist/index.html
+  upload: dist/index.html
