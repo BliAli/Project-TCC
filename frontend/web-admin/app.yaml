@@ -1,4 +1,4 @@
-runtime: nodejs20
+runtime: nodejs22
 instance_class: F1
 
 # Trik agar App Engine mendeteksi aplikasi Node.js yang hidup tanpa membebani RAM
