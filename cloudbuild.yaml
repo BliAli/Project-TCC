@@ -2,15 +2,12 @@ steps:
   # ==========================================
   # 1. BUILD & DEPLOY AUTH-SERVICE
   # ==========================================
-  # Build Docker Image untuk auth-service
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cucimobil-repo/auth-service:latest', './backend/auth-service']
   
-  # Push Image auth-service ke Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cucimobil-repo/auth-service:latest']
   
-  # Deploy auth-service ke Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: ['run', 'deploy', 'auth-service', 
@@ -21,18 +18,18 @@ steps:
   # ==========================================
   # 2. BUILD & DEPLOY API-SERVICE
   # ==========================================
-  # Build Docker Image untuk api-service
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cucimobil-repo/api-service:latest', './backend/api-service']
   
-  # Push Image api-service ke Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cucimobil-repo/api-service:latest']
   
-  # Deploy api-service ke Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: ['run', 'deploy', 'api-service', 
            '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/cucimobil-repo/api-service:latest', 
            '--region', 'us-central1', 
            '--allow-unauthenticated']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
