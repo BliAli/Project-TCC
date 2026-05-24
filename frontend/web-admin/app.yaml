@@ -1,19 +1,20 @@
 runtime: nodejs20
+instance_class: F1
 
-# Gunakan handlers untuk menghidangkan file statis tanpa membebani runtime Node.js
+# Trik agar App Engine mendeteksi aplikasi Node.js yang hidup tanpa membebani RAM
+entrypoint: node -e 'require("http").createServer((req, res) => res.end("OK")).listen(process.env.PORT || 8080)'
+
+# Aturan routing untuk Vite / React SPA
 handlers:
-  # 1. Menghidangkan folder aset Vite (CSS/JS)
   - url: /assets
     static_dir: dist/assets
     secure: always
 
-  # 2. Menghidangkan aset statis di root (misal: favicon, logo)
   - url: /(.*\.(svg|png|jpg|ico|json|txt))$
     static_files: dist/\1
     upload: dist/.*\.(svg|png|jpg|ico|json|txt)$
     secure: always
 
-  # 3. Catch-all: Mengarahkan semua routing ke index.html (Wajib untuk React SPA)
   - url: /.*
     static_files: dist/index.html
     upload: dist/index.html
