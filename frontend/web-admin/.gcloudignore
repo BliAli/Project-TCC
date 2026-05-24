@@ -1,0 +1,12 @@
+# Abaikan konfigurasi git
+.git/
+.gitignore
+
+# Abaikan dependensi lokal (sangat penting agar upload cepat)
+node_modules/
+
+# Abaikan source code mentah karena App Engine hanya butuh hasil build
+src/
+public/
+
+# PENTING: Jangan masukkan direktori 'dist' ke sini!

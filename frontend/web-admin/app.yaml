@@ -1,15 +1,20 @@
-runtime: nodejs22
-instance_class: F1
-automatic_scaling:
-  max_instances: 5
+runtime: nodejs20
 
+# Gunakan handlers untuk menghidangkan file statis tanpa membebani runtime Node.js
 handlers:
-# Melayani aset statis agar langsung diakses oleh browser
-- url: /assets
-  static_dir: dist/assets
-- url: /(.*\..+)$
-  static_files: dist/\1
-  upload: dist/(.*\..+)$
-- url: /.*
-  static_files: dist/index.html
-  upload: dist/index.html
+  # 1. Menghidangkan folder aset Vite (CSS/JS)
+  - url: /assets
+    static_dir: dist/assets
+    secure: always
+
+  # 2. Menghidangkan aset statis di root (misal: favicon, logo)
+  - url: /(.*\.(svg|png|jpg|ico|json|txt))$
+    static_files: dist/\1
+    upload: dist/.*\.(svg|png|jpg|ico|json|txt)$
+    secure: always
+
+  # 3. Catch-all: Mengarahkan semua routing ke index.html (Wajib untuk React SPA)
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
+    secure: always
