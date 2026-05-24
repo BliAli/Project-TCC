@@ -1,4 +1,4 @@
-runtime: nodejs20
+runtime: nodejs22
 
 handlers:
 # Melayani aset statis bawaan Vite
