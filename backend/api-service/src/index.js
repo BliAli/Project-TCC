@@ -15,8 +15,23 @@ const notificationRoutes = require('./routes/notificationRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
+const allowedOrigins = [
+  process.env.FRONTEND_URL || "https://project-tcc-497310.uc.r.appspot.com",
+];
 
-app.use(cors());
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 connectMongoDB();
@@ -34,6 +49,11 @@ app.use('/api/tracking', trackingRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/photos', photoRoutes);
 app.use('/api/notifications', notificationRoutes);
+
+app.use((err, req, res, next) => {
+  console.error("GLOBAL ERROR HANDLER:", err.stack);
+  res.status(500).json({ error: "Something broke!", details: err.message });
+});
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`API service running on port ${PORT}`);
