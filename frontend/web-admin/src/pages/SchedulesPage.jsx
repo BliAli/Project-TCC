@@ -66,10 +66,10 @@ export default function SchedulesPage() {
               schedules.map((sch) => (
                 <tr key={sch.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm font-medium">{sch.staff_name}</td>
-                  //merapihkan tanggal dan waktu
                   <td className="px-6 py-4 text-sm">{new Date(sch.date).toLocaleDateString()}</td>
-                  <td className="px-6 py-4 text-sm">{new Date(sch.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                  <td className="px-6 py-4 text-sm">{new Date(sch.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                  // merubah format waktu dari "HH:mm:ss" menjadi "HH:mm"
+                  <td className="px-6 py-4 text-sm">{sch.start_time.substring(0, 5)}</td>
+                  <td className="px-6 py-4 text-sm">{sch.end_time.substring(0, 5)}</td>
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${sch.is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                       {sch.is_available ? 'Ya' : 'Tidak'}
