@@ -35,6 +35,6 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/photos', photoRoutes);
 app.use('/api/notifications', notificationRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`API service running on port ${PORT}`);
 });
