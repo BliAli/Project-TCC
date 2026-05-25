@@ -1,21 +1,14 @@
 runtime: nodejs22
 instance_class: F1
+automatic_scaling:
+  max_instances: 5
 
-# Trik agar App Engine mendeteksi aplikasi Node.js yang hidup tanpa membebani RAM
-entrypoint: node -e 'require("http").createServer((req, res) => res.end("OK")).listen(process.env.PORT || 8080)'
-
-# Aturan routing untuk Vite / React SPA
 handlers:
-  - url: /assets
-    static_dir: dist/assets
-    secure: always
-
-  - url: /(.*\.(svg|png|jpg|ico|json|txt))$
-    static_files: dist/\1
-    upload: dist/.*\.(svg|png|jpg|ico|json|txt)$
-    secure: always
-
-  - url: /.*
-    static_files: dist/index.html
-    upload: dist/index.html
-    secure: always
+- url: /assets
+  static_dir: dist/assets
+- url: /(.*\..+)$
+  static_files: dist/\1
+  upload: dist/(.*\..+)$
+- url: /.*
+  static_files: dist/index.html
+  upload: dist/index.html
