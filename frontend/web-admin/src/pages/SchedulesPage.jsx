@@ -67,7 +67,6 @@ export default function SchedulesPage() {
                 <tr key={sch.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm font-medium">{sch.staff_name}</td>
                   <td className="px-6 py-4 text-sm">{new Date(sch.date).toLocaleDateString()}</td>
-                  // merubah format waktu dari "HH:mm:ss" menjadi "HH:mm"
                   <td className="px-6 py-4 text-sm">{sch.start_time.substring(0, 5)}</td>
                   <td className="px-6 py-4 text-sm">{sch.end_time.substring(0, 5)}</td>
                   <td className="px-6 py-4">
