@@ -10,12 +10,15 @@ steps:
     dir: 'frontend/web-admin'
     entrypoint: npm
     args: ['run', 'build']
+    env:
+      - 'VITE_AUTH_API_URL=https://auth-service-849384271639.us-central1.run.app'
+      - 'VITE_API_URL=https://api-service-849384271639.us-central1.run.app'
 
   # 3. Deploy ke App Engine sebagai file statis
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     dir: 'frontend/web-admin'
     entrypoint: gcloud
-    args: ['app', 'deploy', 'app.yaml', '--project', '$PROJECT_ID', '--quiet', '--no-cache']
+    args: ['app', 'deploy', 'app.yaml', '--project', '$PROJECT_ID', '--quiet', '--skip-staging', '--no-cache']
 
 options:
   logging: CLOUD_LOGGING_ONLY
